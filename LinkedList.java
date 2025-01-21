@@ -163,7 +163,7 @@ public class LinkedList {
 	public int indexOf(MemoryBlock block) {
 		Node current = first;
 		int index = 0;
-		while (current.next != null) {
+		while (current != null) {
 			if (current.block.equals(block)) {
 				return index;
 			}
@@ -183,7 +183,7 @@ public class LinkedList {
 		if (node == null) return;
 		Node prev = null;
 		Node current = first;
-		while (current != null && !current.block.equals(node.block)) {
+		while (current != null && current != node) {
 			prev = current;
 			current = current.next;
 		}
