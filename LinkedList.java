@@ -58,10 +58,11 @@ public class LinkedList {
 			return null;
 		}
 		Node curr = first;
-		int i = 0;
-		while (i != index) {
+		for(int i = 0; i < index; i++) {
+			if (curr == null) {
+				return null;
+			}
 			curr = curr.next;
-			i++;
 		}
 
 		return curr;
@@ -180,7 +181,7 @@ public class LinkedList {
 	 *        the node that will be removed from this list
 	 */
 	public void remove(Node node) {
-		if (node == null) return;
+		if (node == null) throw new NullPointerException();
 		Node prev = null;
 		Node current = first;
 		while (current != null && current != node) {
@@ -225,7 +226,7 @@ public class LinkedList {
 	public void remove(MemoryBlock block) {
 		if (indexOf(block) == -1) {
 			throw new IllegalArgumentException(
-					"block is not in this list");
+					"index must be between 0 and size");
 		}
 		remove(indexOf(block));
 	}	
