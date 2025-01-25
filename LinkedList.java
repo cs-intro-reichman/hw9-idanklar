@@ -93,24 +93,20 @@ public class LinkedList {
 					"index must be between 0 and size");
 		}
 		Node newNode = new Node(block);
-		if (index == 0) {
+		if (first == null){
+			first = newNode;
+			last = newNode;
+		} else if (index == 0) {
 			newNode.next = first;
 			first = newNode;
-			if (size == 0) {
-				last = newNode;
-			}
-		} 
-		else if (index == size) {
+		} else if (index == size){
 			last.next = newNode;
 			last = newNode;
-		}
-		else{
-			Node current = first;
-			for(int i = 0; i < index - 1; i++) {
-				current = current.next;
-			}
-			newNode.next = current.next;
+		} else {
+			Node current = getNode(index - 1);
+			Node temp = current.next;
 			current.next = newNode;
+			newNode.next = temp;
 		}
 		size++;
 	}
@@ -181,24 +177,49 @@ public class LinkedList {
 	 *        the node that will be removed from this list
 	 */
 	public void remove(Node node) {
-		if (node == null) throw new NullPointerException();
-		Node prev = null;
 		Node current = first;
-		while (current != null && current != node) {
-			prev = current;
-			current = current.next;
+		
+		if (node.equals(null)){
+			System.out.println("ERROR NullPointerException!");
+			return;
 		}
-		if (current == null) return;
-		if (prev == null) {
+		if (first.equals(null)){
+			return;
+		} else if (size == 1 && first.equals(node)){
+			size = 0;
+			first = null;
+			last = null;
+			return;
+		}  
+		if (node.equals(first)) {
 			first = first.next;
+			size--;
+			if(size == 1) {
+				last = first;
+			}
+			return;
+		} 
+
+		while (current.next != null) {
+			if (current.next.equals(node) && node.equals(last)){
+				current.next = null; 
+				size--;
+				last = current;
+				if (size == 1){
+					last = first;
+				}
+				break;
+			}
+			if (current.next.equals(node)){
+				current.next=current.next.next;
+				size--;
+				if (size == 1){
+					last = first;
+				}
+				break;
+			} 
+				current = current.next;
 		}
-		else {
-			prev.next = current.next;
-		}
-		if (current == last) {
-			last = prev;
-		}
-		size--;
 	}
 
 	/**
@@ -250,5 +271,18 @@ public class LinkedList {
 			current = current.next;
 		}
 		return str;
+	}
+	public void sort (){
+		for (int i = 0; i < size - 1; i++) {
+			for (int j = 0; j < size - i - 1; j++) {
+				Node curr = getNode(j);
+				Node next = curr.next;
+				if (curr.block.baseAddress > next.block.baseAddress){
+					MemoryBlock temp = curr.block;
+					curr.block = next.block;
+					next.block = temp;
+				}
+			}
+		}
 	}
 }
