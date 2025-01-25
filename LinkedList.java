@@ -213,14 +213,7 @@ public class LinkedList {
 			throw new IllegalArgumentException(
 					"index must be between 0 and size");
 		}
-		if(size == 0) return;
-		if(size == 1) {
-			first = null;
-			last = null;
-			size = 0;
-			return;
-		}
-		remove(getBlock(index));
+		remove(getNode(index));
 	}
 
 	/**
@@ -234,9 +227,6 @@ public class LinkedList {
 		if (indexOf(block) == -1) {
 			throw new IllegalArgumentException(
 					"index must be between 0 and size");
-		}
-		if(block == null) {
-			throw new IllegalArgumentException("index must be between 0 and size");
 		}
 		remove(indexOf(block));
 	}	
