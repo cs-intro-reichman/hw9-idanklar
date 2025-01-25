@@ -68,7 +68,7 @@ public class MemorySpace {
 			temp = temp.next;
 		}
 		if(match != null) {
-			MemoryBlock newBlock = new MemoryBlock(match.block.baseAddress , length);
+			MemoryBlock newBlock = new MemoryBlock(match.block.baseAddress, length);
 			int address = match.block.baseAddress;
 			allocatedList.addLast(newBlock);
 			match.block.length -= length;
