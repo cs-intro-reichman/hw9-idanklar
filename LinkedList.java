@@ -54,18 +54,21 @@ public class LinkedList {
 			throw new IllegalArgumentException(
 					"index must be between 0 and size");
 		}
-		if (size == 0) {
+
+		if (first == null){
 			return null;
 		}
-		Node curr = first;
-		for(int i = 0; i < index; i++) {
-			if (curr == null) {
-				return null;
+		
+		Node current = first;
+		int nodeIndex = 0;
+		while (current!=null) {
+			if (nodeIndex == index){
+				return current;
 			}
-			curr = curr.next;
+			current = current.next;
+			nodeIndex++;
 		}
-
-		return curr;
+		return null;
 	}
 	
 	/**
@@ -88,11 +91,11 @@ public class LinkedList {
 	 *         if index is negative or greater than the list's size
 	 */
 	public void add(int index, MemoryBlock block) {
+		Node newNode = new Node(block);
 		if (index < 0 || index > size) {
 			throw new IllegalArgumentException(
 					"index must be between 0 and size");
 		}
-		Node newNode = new Node(block);
 		if (first == null){
 			first = newNode;
 			last = newNode;
@@ -147,7 +150,8 @@ public class LinkedList {
 			throw new IllegalArgumentException(
 					"index must be between 0 and size");
 		}
-		return getNode(index).block;
+		MemoryBlock block = getNode(index).block;
+		return block;
 	}	
 
 	/**
@@ -158,14 +162,17 @@ public class LinkedList {
 	 * @return the index of the block, or -1 if the block is not in this list
 	 */
 	public int indexOf(MemoryBlock block) {
+		if (first == null){
+			return -1;
+		}
 		Node current = first;
 		int index = 0;
 		while (current != null) {
 			if (current.block.equals(block)) {
 				return index;
 			}
-		current = current.next; 
-		index++;
+			index++;
+			current = current.next; 
 		} 
 		return -1;
 	}
@@ -231,7 +238,10 @@ public class LinkedList {
 			throw new IllegalArgumentException(
 					"index must be between 0 and size");
 		}
-		remove(getNode(index));
+		if (first == null){
+		} else {
+			remove(getNode(index));
+		}
 	}
 
 	/**
@@ -260,14 +270,13 @@ public class LinkedList {
 	 * A textual representation of this list, for debugging.
 	 */
 	public String toString() {
-		if (size == 0) return "()";
 		String str = "";
 		Node current = first;
-		while (current != null) {
-			str += current.block.toString() + " ";
-			current = current.next;
+		for(int i = 0 ; i < size ; i ++) {
+        	str += current.block.toString() + " "; 
+        	current = current.next; 
 		}
-		return str;
+    	return str;
 	}
 	public void sort (){
 		for (int i = 0; i < size - 1; i++) {

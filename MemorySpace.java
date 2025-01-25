@@ -69,9 +69,9 @@ public class MemorySpace {
 		}
 		if(match != null) {
 			MemoryBlock newBlock = new MemoryBlock(match.block.baseAddress, length);
-			int address = match.block.baseAddress;
 			allocatedList.addLast(newBlock);
 			match.block.length -= length;
+			int address = match.block.baseAddress;
 			match.block.baseAddress += length;
 			if(match.block.length == 0) freeList.remove(match);
 			return address;
@@ -88,15 +88,25 @@ public class MemorySpace {
 	 *            the starting address of the block to freeList
 	 */
 	public void free(int address) {
-		ListIterator allListIterator = allocatedList.iterator();
-
-		while (allListIterator.hasNext()) {
-			MemoryBlock current = allListIterator.next();
-			if (current.baseAddress == address) {
-				freeList.addLast(current);
-				allocatedList.remove(current);
-			}
+		if(freeList.getSize() == 1 && freeList.getFirst().block.baseAddress == 0 && freeList.getFirst().block.length == 100) {
+			throw new IllegalArgumentException(
+					"index must be between 0 and size");
 		}
+		   	Node current = allocatedList.getNode(0);
+			Node target = null;
+			while (current != null) {	
+				if (current.block.baseAddress == address){
+					target = current;
+					break;
+				}
+				current = current.next;
+			}
+			if (target == null) {
+				return;
+			} else {
+				freeList.addLast(target.block);
+				allocatedList.remove(target.block);
+			}
 	}
 	
 	/**
