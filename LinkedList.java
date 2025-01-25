@@ -213,7 +213,14 @@ public class LinkedList {
 			throw new IllegalArgumentException(
 					"index must be between 0 and size");
 		}
-		remove(getNode(index));
+		if(size == 0) return;
+		if(size == 1) {
+			first = null;
+			last = null;
+			size = 0;
+			return;
+		}
+		remove(getBlock(index));
 	}
 
 	/**
@@ -227,6 +234,9 @@ public class LinkedList {
 		if (indexOf(block) == -1) {
 			throw new IllegalArgumentException(
 					"index must be between 0 and size");
+		}
+		if(block == null) {
+			throw new IllegalArgumentException("index must be between 0 and size");
 		}
 		remove(indexOf(block));
 	}	
@@ -243,12 +253,12 @@ public class LinkedList {
 	 */
 	public String toString() {
 		if (size == 0) return "()";
-		String str = "(";
+		String str = "";
 		Node current = first;
 		while (current != null) {
-			str += current.block + " ";
+			str += current.block.toString() + " ";
 			current = current.next;
 		}
-		return str.substring(0,str.length() - 1) + ")";
+		return str;
 	}
 }
